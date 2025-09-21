@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive/auth/signup.dart';
 
+import '../Home.dart';
 import '../widgets/CustumAlign.dart';
 import '../widgets/custumContainer.dart';
+import '../Home.dart';
 
 
 class login extends StatefulWidget {
@@ -105,7 +108,20 @@ class _loginState extends State<login> {
             SizedBox(
               width: double.infinity,
               child: MaterialButton(
-                onPressed: (){
+                onPressed: () async{
+                  try {
+                    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: MailController.text,
+                        password: PassController.text
+                    );
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Home(),));
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'user-not-found') {
+                      print('No user found for that email.');
+                    } else if (e.code == 'wrong-password') {
+                      print('Wrong password provided for that user.');
+                    }
+                  }
 
                 },
                 color: Colors.blueAccent,

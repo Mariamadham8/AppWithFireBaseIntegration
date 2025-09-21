@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../Home.dart';
 import '../widgets/CustumAlign.dart';
 import '../widgets/custumTextFeild.dart';
 
@@ -12,6 +14,7 @@ class signup extends StatefulWidget {
 }
 
 class _signupState extends State<signup> {
+  TextEditingController MailController=TextEditingController();
   TextEditingController PassController=TextEditingController();
   bool PassState=true;
   TextEditingController PassController2=TextEditingController();
@@ -62,7 +65,7 @@ class _signupState extends State<signup> {
             fontsize: 15,
            ),
       SizedBox(height: 5.h,),
-       custumTextFeild(hint:"Enter your mail" ,),
+       custumTextFeild(hint:"Enter your mail" ,controller: MailController,),
                 CustomAlign(
                   label: "Password",
                   color: Colors.black,
@@ -127,7 +130,22 @@ class _signupState extends State<signup> {
                 SizedBox(
                   width: double.infinity,
                   child: MaterialButton(
-                    onPressed: (){
+                    onPressed: () async{
+                      try {
+                        final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                          email: MailController.text,
+                          password: PassController.text,
+                        );
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Home(),));
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'weak-password') {
+                          print('The password provided is too weak.');
+                        } else if (e.code == 'email-already-in-use') {
+                          print('The account already exists for that email.');
+                        }
+                      } catch (e) {
+                        print(e);
+                      }
 
                     },
                     color: Colors.blueAccent,
