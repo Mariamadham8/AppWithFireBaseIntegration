@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 class custumTextFeild extends StatelessWidget{
   final controller;
   final hint;
+  String? Function(String?)? validator;
 
   custumTextFeild({
     required this.hint,
-    this.controller
+    this.controller,
+    required this.validator,
 });
 
   @override
   Widget build(BuildContext context) {
 
-    return  TextField(
+    return  TextFormField(
+    validator:validator ,
       controller: controller,
       decoration: InputDecoration(
         filled: true,
