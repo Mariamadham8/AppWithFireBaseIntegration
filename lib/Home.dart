@@ -4,6 +4,7 @@ import'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'Categories/Edit.dart';
 import 'auth/login.dart';
 
 class Home extends StatefulWidget {
@@ -87,6 +88,9 @@ class _HomeState extends State<Home> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => edit(decId:data[index].id,oldname:data[index]['name'] ,),));
+            },
+            onLongPress: (){
                 AwesomeDialog(
                 context: context,
                 dialogType: DialogType.warning,
