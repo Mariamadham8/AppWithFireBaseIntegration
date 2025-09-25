@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Categories/Edit.dart';
+import '../Home.dart';
 import '../auth/login.dart';
 import './addNote.dart';
 import 'edit.dart';
@@ -72,7 +73,7 @@ class _veiwNotesState extends State<veiwNotes> {
           )
         ],
       ),
-      body:isLoading?Center(child: CupertinoActivityIndicator(color: Colors.blueAccent),):GridView.builder(
+      body:WillPopScope(child: isLoading?Center(child: CupertinoActivityIndicator(color: Colors.blueAccent),):GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,),
         itemCount: data.length,
         itemBuilder: (context, index) {
@@ -107,6 +108,11 @@ class _veiwNotesState extends State<veiwNotes> {
           );
         },
       ) ,
+          onWillPop: (){
+              Navigator.push(context,MaterialPageRoute(builder: (context) => Home(),));
+              return Future.value(false);
+          }
+      )
 
     );
   }
