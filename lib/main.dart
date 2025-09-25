@@ -8,6 +8,7 @@ import 'Home.dart';
 import 'auth/login.dart';
 
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -51,6 +52,7 @@ class _MyAppState extends State<MyApp> {
           routes: {
             "category":(context)=>add(),
             "Home":(context)=>Home(),
+
           },
         );
       },

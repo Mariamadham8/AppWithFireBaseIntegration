@@ -6,6 +6,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Categories/Edit.dart';
 import 'auth/login.dart';
+import 'note/view.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -99,7 +100,6 @@ class _HomeState extends State<Home> {
                 desc: "Are you sure?",
                 btnOkOnPress: () {
                   deletedata(index);
-                  Navigator.pushNamed(context, "Home");
                 },
                 btnCancelOnPress: (){
 
@@ -110,8 +110,19 @@ class _HomeState extends State<Home> {
               color: Colors.white,
               child: Column(
                 children:[
-                  Image(image: AssetImage("assets/data-exchange_7859254.png"),height: 120,),
+                  Image(image: AssetImage("assets/data-exchange_7859254.png"),height: 100,),
                   Text("${data[index]['name']}"),
+                  ElevatedButton(
+                     style: ButtonStyle(
+                       backgroundColor:WidgetStateColor.transparent,
+                       minimumSize:WidgetStateProperty.all(Size(80, 10)),
+
+                     ),
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => veiwNotes(docID:data[index].id,Categoryname:data[index]['name'] ,)));
+                  },
+                      child: Text("Veiw Note",style: TextStyle(color: Colors.white),)
+                  )
                 ]
               )
             ),
